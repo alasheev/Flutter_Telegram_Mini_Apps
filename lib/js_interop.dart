@@ -27,3 +27,7 @@ extension type ThemeParamsJs._(JSObject _) implements JSObject {
 extension type WebAppUserJs._(JSObject _) implements JSObject {
   external String username;
 }
+
+// telegram_js.dart
+@JS('Telegram.WebApp')
+external WebAppJs get webApp;

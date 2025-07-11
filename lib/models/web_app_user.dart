@@ -1,4 +1,4 @@
-import 'package:flutter_telegram_mini_app/js_interop_types.dart';
+import 'package:flutter_telegram_mini_app/js_interop.dart';
 
 class WebAppUser {
   final String username;
