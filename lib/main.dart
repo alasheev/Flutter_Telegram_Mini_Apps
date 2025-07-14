@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_telegram_mini_app/js_interop.dart'
-    as telegram_js;
-import 'package:flutter_telegram_mini_app/models/web_app.dart';
+import 'package:flutter_telegram_mini_app/app.dart';
+import 'package:flutter_telegram_miniapp/flutter_telegram_miniapp.dart';
 
 void main() {
-  runApp(const MyApp());
+  try {
+    WebApp().init();
+    // runApp(MyApp());
+    runApp(App());
+  } catch (e) {
+    print('Error initializing Mini App: $e');
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -34,22 +39,24 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  WebApp? webApp;
-  String? tgName;
+  final bool isTelegramSupported = WebApp().isSupported;
 
   @override
   Widget build(BuildContext context) {
-    try {
-      webApp = WebApp.fromJs(telegram_js.webApp);
-      tgName = webApp!.initDataUnsafe.user.username;
-    } on Exception catch (e) {
-      print(e.toString());
-    }
+    print(WebApp().toString());
     return Container(
       color: Colors.blue,
       child: Center(
-        child: Text(
-          "Telegram username: ${tgName ?? 'unknown'}",
+        child: Column(
+          children: [
+            Text(
+              "Telegram support: ${isTelegramSupported ? 'enabled' : 'disabled'}"
+            ),
+            if (isTelegramSupported)
+            Text(
+              "Telegram username: ${WebApp().initDataUnsafe.user?.username ?? 'unknown'}",
+            ),
+          ],
         ),
       ),
     );
